@@ -1,0 +1,42 @@
+neighbor        0.4 bin
+neigh_modify    every 1 delay 1  one 2500
+atom_modify     sort 0 0.0
+
+#   ----    Force Field     ----
+bond_style      fene
+bond_coeff      1 30.0 1.5 1.0 1.0
+angle_style     cosine/delta
+angle_coeff     1   2.0     180.0
+
+
+#   ----    TF with X chrom     ----
+#variable    elipsoncp 	equal 1.80
+#variable    elipsonpp 	equal 1.80
+
+variable    elipsoncp 	equal	${epsNAD}
+variable    elipsonpp 	equal 	${epsNAD}
+variable    sigmacp 	equal 0.75
+variable    sigmapp 	equal 0.50
+variable    cutoffcp 	equal 2.00
+variable    cutoffpp 	equal 2.00
+
+#   ----    Between chrom     ----
+pair_style 		hybrid/overlay table linear 10000 & 
+				tanhlr/cut/ideals ${cuttanh} &
+				...[INSERT YOUR PATH HERE].../potential/ideal_chromosome.txt &
+				...[INSERT YOUR PATH HERE].../potential/ideal_chromosome23.txt 1.000  &
+				tanhlr/cut/domainab ${cuttanh} 3 46 &
+				/home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/nucleolus_related/tad_index_genome_1000kb_diploid.txt  &
+				/home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/nucleolus_related/different_ab_type_interChrom.txt &
+				/home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/nucleolus_related/different_ab_type_interChrom_potential_iter00.txt &
+				...[INSERT YOUR PATH HERE].../subcompartment/Subcompartment_Data.txt &
+				lj/cut 1.12
+				
+include         /home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/nucleolus_related/soft_core_p.txt1
+pair_coeff      * *  tanhlr/cut/ideals     0.0  ${rctanh}  ${sigmatanh}
+
+#Major change in the following line 
+include         ...[INSERT YOUR PATH HERE].../eij_compartment_uniform_7types.txt
+
+#Shifted the lj/cut pair_coeff lines to the main file to avoid the * * overide assignment
+pair_modify     tabinner 0.0000000001 shift yes
