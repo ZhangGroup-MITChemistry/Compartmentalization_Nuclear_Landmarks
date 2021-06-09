@@ -1,0 +1,58 @@
+#*****Lamina-Chromatin and Lamin-Nucleolus interactions*****
+#Zero out the soft table
+pair_coeff	1 9 	table /home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/src/md/energy_file/soft_core_lj_zeroed.table soft_core_zeroed 1.12
+pair_coeff	2 9 	table /home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/src/md/energy_file/soft_core_lj_zeroed.table soft_core_zeroed 1.12
+pair_coeff	3 9 	table /home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/src/md/energy_file/soft_core_lj_zeroed.table soft_core_zeroed 1.12
+pair_coeff	4 9 	table /home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/src/md/energy_file/soft_core_lj_zeroed.table soft_core_zeroed 1.12
+pair_coeff	5 9 	table /home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/src/md/energy_file/soft_core_lj_zeroed.table soft_core_zeroed 1.12
+pair_coeff	6 9 	table /home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/src/md/energy_file/soft_core_lj_zeroed.table soft_core_zeroed 1.12
+pair_coeff	7 9 	table /home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/src/md/energy_file/soft_core_lj_zeroed.table soft_core_zeroed 1.12
+pair_coeff	8 9 	table /home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/src/md/energy_file/soft_core_lj_zeroed.table soft_core_zeroed 1.12
+pair_coeff	9 9 	table /home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/src/md/energy_file/soft_core_lj_zeroed.table soft_core_zeroed 1.12
+
+#Domainab interaction lamina-chromatin
+#arg is 1scale 2scale alpha rc sigma
+pair_coeff         1    9  tanhlr/cut/domainab       	${epsLAD}     0.000000    	0.0	 	${rctanh}  ${sigmaLAD}
+pair_coeff         2    9  tanhlr/cut/domainab        	${epsLAD}     0.000000    	0.0  	${rctanh}  ${sigmaLAD}
+pair_coeff         3    9  tanhlr/cut/domainab        	${epsLAD}     0.000000     	0.0	 	${rctanh}  ${sigmaLAD}
+pair_coeff         4    9  tanhlr/cut/domainab        	${epsLAD}     0.000000     	0.0	 	${rctanh}  ${sigmaLAD}
+pair_coeff         5    9  tanhlr/cut/domainab        	${epsLAD}     0.000000     	0.0	 	${rctanh}  ${sigmaLAD}
+pair_coeff         6    9  tanhlr/cut/domainab        	${epsLAD}     0.000000     	0.0	 	${rctanh}  ${sigmaLAD}
+pair_coeff         7    9  tanhlr/cut/domainab        	${epsLAD}     0.000000     	0.0	 	${rctanh}  ${sigmaLAD}
+pair_coeff         8    9  tanhlr/cut/domainab        	0.0     	  0.000000     	0.0	 	${rctanh}  ${sigmaLAD}
+pair_coeff         9    9  tanhlr/cut/domainab        	0.0      	  0.000000     	0.0	 	${rctanh}  ${sigmaLAD}
+
+#WCA nucleolus-chromatin and lamina-chromatin
+pair_coeff 		* * lj/cut 0.0 		0.0 	  	${WCAcut}
+#Block out chr-nucleolus interaction and introduce SPIN state forces
+#8 8 interaction not blocked
+
+#pair_coeff      1 8 lj/cut 1.0 		${sigmacp} 	1.12
+#pair_coeff      2 8 lj/cut 1.0 		${sigmacp} 	1.12
+#pair_coeff      3 8 lj/cut 1.0 		${sigmacp} 	1.12
+#pair_coeff      4 8 lj/cut 1.0 		${sigmacp} 	1.12
+#pair_coeff      5 8 lj/cut ${elipsoncp} ${sigmacp} ${cutoffcp}
+#pair_coeff      6 8 lj/cut ${elipsoncp} ${sigmacp} ${cutoffcp}
+#pair_coeff      7 8 lj/cut ${elipsoncp} ${sigmacp} ${cutoffcp}
+pair_coeff      8 8 lj/cut ${elipsonpp} ${sigmapp} ${cutoffpp}
+
+pair_coeff         1    8  tanhlr/cut/domainab       	0.0     ${epsNAD}    	0.0	 	${rctanh}  ${sigmaNAD}
+pair_coeff         2    8  tanhlr/cut/domainab        	0.0     ${epsNAD}    	0.0  	${rctanh}  ${sigmaNAD}
+pair_coeff         3    8  tanhlr/cut/domainab        	0.0     ${epsNAD}     	0.0	 	${rctanh}  ${sigmaNAD}
+pair_coeff         4    8  tanhlr/cut/domainab        	0.0     ${epsNAD}     	0.0	 	${rctanh}  ${sigmaNAD}
+pair_coeff         5    8  tanhlr/cut/domainab        	0.0     ${epsNAD}     	0.0	 	${rctanh}  ${sigmaNAD}
+pair_coeff         6    8  tanhlr/cut/domainab        	0.0     ${epsNAD}     	0.0	 	${rctanh}  ${sigmaNAD}
+pair_coeff         7    8  tanhlr/cut/domainab        	0.0     ${epsNAD}     	0.0	 	${rctanh}  ${sigmaNAD}
+
+
+pair_coeff 1 9 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+pair_coeff 2 9 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+pair_coeff 3 9 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+pair_coeff 4 9 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+pair_coeff 5 9 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+pair_coeff 6 9 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+pair_coeff 7 9 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+pair_coeff 8 9 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+
+#Do not move the following line up because of the * * init above
+include in.ff_param_speckles 
