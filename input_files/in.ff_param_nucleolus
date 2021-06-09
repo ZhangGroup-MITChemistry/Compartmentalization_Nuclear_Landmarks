@@ -29,7 +29,7 @@ pair_style 		hybrid/overlay table linear 10000 &
 				/home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/nucleolus_related/tad_index_genome_1000kb_diploid.txt  &
 				/home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/nucleolus_related/different_ab_type_interChrom.txt &
 				/home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/nucleolus_related/different_ab_type_interChrom_potential_iter00.txt &
-				...[INSERT YOUR PATH HERE].../subcompartment/Subcompartment_Data.txt &
+				...[INSERT YOUR PATH HERE].../subcompartment/Subcompartment_Data_cell_type-K562.txt &
 				lj/cut 1.12
 				
 include         /home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/nucleolus_related/soft_core_p.txt1
