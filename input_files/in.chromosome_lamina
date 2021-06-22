@@ -1,4 +1,4 @@
-#Input file changed to introduce SPIN based forces
+#Input file changed to introduce SPIN based forces, types changed to 4 for chr and cell type is HFF
 
 variable 		rseed 			equal	419
 variable		T				equal	1.0	
@@ -7,7 +7,7 @@ variable 		sigmaLAD		equal	1.0
 variable 		sigmaNAD		equal	0.75							#Protein-Chr sigma
 variable 		epsWCA			equal 	1.0
 variable 		sigWCA			equal	1.0
-variable		sigmaChrSpec	equal	0.75
+variable		sigmaChrSpec	equal	0.675
 variable		sigmaSpecSpec	equal	0.35
 variable		cutoffSpecSpec	equal	2.0
 variable 		rctanh			equal	0.868
@@ -25,11 +25,9 @@ variable		epsSpecSpec		equal	0.0
 #Zero out the lamin-chromatin, nucleolus-chromatin, speckle-chromatin, speckle-speckle 
 #and nucleolus-nucleolus interaction for the anneal run
 
-
 ### Determines file being read in read_data ###
 variable 		nclust		equal 	25
-variable 		npart		equal	16
-
+variable 		npart		equal	12
 
 variable		WCAcut	equal 	(2.0)^(1.0/6.0)*${sigWCA}
 
@@ -38,16 +36,14 @@ atom_style 		full
 boundary 		f	f	f
 special_bonds 	fene
 
-read_data		data_small_nucleus.genome_lamina_nucleolus_300_speckles_nclust${nclust}_npart${npart}
+read_data		data_small_nucleus_cell_type-HFF.genome_lamina_nucleolus_300_speckles_nclust${nclust}_npart${npart}
 include 		in.ff_param_nucleolus
 
-#Forcefield files separated for clarity
-#write_dump		 all custom Chromosome_With_Lamina.LammpsTraj id mol type xu yu zu modify sort id 
 
-include 		in.pair_coeff_commands
+include 		in.pair_coeff_commands_for_annealing
 
 run 0
-group			lamina		type	9
+group			lamina		type	6
 group 			innerchrome	subtract all lamina
 
 ##########
@@ -70,7 +66,7 @@ reset_timestep	0
 timestep        0.005
 dump            1 all dcd 2000 DUMP_FILE_highT.dcd 
 dump_modify     1 unwrap yes
-#velocity        innerchrome create ${T} ${rseed} rot yes mom yes dist gaussian
+
 fix 			1 innerchrome	nve
 fix             2 innerchrome langevin 2.0 1.0 10.0 ${rseed}
 run             100000
@@ -81,16 +77,15 @@ unfix           2
 #	After Anneal   #
 #####################
 variable 		epsLAD			equal	0.8
-variable 		epsNAD			equal	2.5
-variable 		epsChrSpec		equal	3.5
-variable		epsSpecSpec		equal	2.5
+variable 		epsNAD			equal	1.8
+variable 		epsChrSpec		equal	5.5
+variable		epsSpecSpec		equal	${epsNAD}
 
 include in.ff_param_nucleolus
 include in.pair_coeff_commands
-fix 			freeze lamina setforce 0.0 0.0 0.0
-minimize        1.0e-4 1.0e-6 1000 1000
-unfix			freeze
-#jump in.chromosome_lamina TheEnd
+
+run 0 
+
 #####################
 ##########
 #  Run   #
@@ -102,11 +97,9 @@ dump_modify     1 unwrap yes
 
 reset_timestep 	0
 timestep        0.005
-run				10000000
-write_restart 	restart.10m
+run				5000000
+#write_restart 	restart.5m
 
-#print	"${epsChrSpec}"			file 	Epsilon_Values.txt 
-#print	"${epsSpecSpec}"		append 	Epsilon_Values.txt 
 label TheEnd
 
 

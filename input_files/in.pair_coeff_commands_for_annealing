@@ -33,4 +33,22 @@ pair_coeff 4 6 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
 pair_coeff 5 6 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
 
 #Do not move the following line up because of the * * init above
-include in.ff_param_speckles 
+include in.ff_param_speckles
+
+#Extra lines for annealing portion, builds repulsion between protein and chromatin so as to avoid overlaps
+#or the need to minimize after high temp run. Repel chr-nuc, chr-spec, nuc-nuc and spec-spec
+
+pair_coeff 1 5 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+pair_coeff 2 5 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+pair_coeff 3 5 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+pair_coeff 4 5 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+
+pair_coeff 1 7 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+pair_coeff 2 7 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+pair_coeff 3 7 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+pair_coeff 4 7 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+
+pair_coeff 5 5 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+pair_coeff 7 7 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+
+

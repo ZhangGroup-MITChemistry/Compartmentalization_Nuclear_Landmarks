@@ -16,7 +16,8 @@
 ------------------------------------------------------------------------- */
 
 //Kartik Version Comment 
-//Edited this file to zero out the specific ab potential completely
+// 1. Edited this file to zero out the specific ab potential completely
+// 2. Removes the redudancy of 7 atom types and just uses 4 atom types
 
 #include "math.h"
 #include "stdio.h"
@@ -95,16 +96,16 @@ void PairTanhlrCutDomainab::compute(int eflag, int vflag)
   //If LJ interaction not used the following terms get computed but not applied.
   //Chr-Lamina
   //Type 1 is Chr Type 9 is Lamina. Hard Code.
-  sig12lad = pow(sigmah[1][9],12.0);
-  sig6lad  = pow(sigmah[1][9],6.0);
+  sig12lad = pow(sigmah[1][6],12.0);
+  sig6lad  = pow(sigmah[1][6],6.0);
   //Chr-nucelolus via NAD 
-  sig12nad = pow(sigmah[1][8],12.0);
-  sig6nad  = pow(sigmah[1][8],6.0); 
+  sig12nad = pow(sigmah[1][5],12.0);
+  sig6nad  = pow(sigmah[1][5],6.0); 
   //Quantities for chr-speckle interactions. Because sigma of chr-lamina, chr-nucleolus and chr-speckle interaction maybe different.
   //Chr-Speckle
   //Type 1 is Chr Type 10 is Speckles.
-  sig12spec = pow(sigmah[1][10],12.0);
-  sig6spec  = pow(sigmah[1][10],6.0);
+  sig12spec = pow(sigmah[1][7],12.0);
+  sig6spec  = pow(sigmah[1][7],6.0);
   //printf("%12.8f,%12.8f,%12.8f\n",sigmah[1][9],sigmah[1][8],sigmah[1][10]);
   for (ii = 0; ii < inum; ii++) {
     i = ilist[ii];
@@ -201,6 +202,7 @@ void PairTanhlrCutDomainab::compute(int eflag, int vflag)
         //***********************************************
         //Following lines are part of the original code
         //Overide of alpha from the file is blocked to include only type specific interaction
+        //June 16 2021 Note that for different cell type the active array has to be generated from a different types info file
         /*    
         
         if ( abs(jmol-imol)>1 || ((jmol-imol) == 1 && (imol%2 == 0)) || ((imol-jmol) == 1 && (jmol%2 == 0)) ) {
@@ -281,7 +283,7 @@ void PairTanhlrCutDomainab::compute(int eflag, int vflag)
       //else if ( ((imol>=547) && (jmol<=46)) || ((imol<=46) && (jmol>=547)) || ((itype==8) && (jmol<=46)) || ((imol<=46) && (jtype==8)) ) {
       /// *** The above else if was generalised to suit the changing number of nucleolus because 547 is hard code molecule id of first lamina particle with 500 nucleolus particles*** ///  
 
-      else if ((itype>=8 && jtype<8) || (itype<8 && jtype>=8)){  
+      else if ((itype>=5 && jtype<5) || (itype<5 && jtype>=5)){  
         //Can include this in the above condition but did this seperately for clarity
         //the following condition changes forces only if within cutoff
         if ((rsq < cutsq[itype][jtype])){
@@ -589,7 +591,7 @@ double PairTanhlrCutDomainab::init_one(int i, int j)
         //chromatin-chromatin offset changed to correct one
         //chromatin-chromatin offset used in the if statement of compute()
         //chromatin-lamina, chromatin-nucleolus,chromatin-speckles offset used in the "else if" statement of compute()
-        if(i<8 && j<8){
+        if(i<5 && j<5){
         //Correct offset 
         offset[s][i][j] = pow(rmh[i][j],4.0)/pow(cut[i][j],4.0);
         }
