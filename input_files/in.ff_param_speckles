@@ -1,0 +1,29 @@
+#Separate FF parameter file for speckles
+#Defines parameters for potentials in the order they appear in in.ff_param_nucleolus
+
+#pair_style table does not support mixing. I,J must be defined explicitly. 
+#Not defining pairs with speckles.
+
+#tanhlr/cut/ideals should not affect speckles because of the mol id cutoffs in pair.cpp  
+ 
+#tanhlr/cut/domainab
+#Domainab interaction chromatin-speckles
+pair_coeff         1    7  tanhlr/cut/domainab        	0.0      	  0.000000     	${epsChrSpec}	 	${rctanh}  ${sigmaChrSpec}
+pair_coeff         2    7  tanhlr/cut/domainab        	0.0      	  0.000000     	${epsChrSpec}	 	${rctanh}  ${sigmaChrSpec}
+pair_coeff         3    7  tanhlr/cut/domainab        	0.0      	  0.000000     	${epsChrSpec}	 	${rctanh}  ${sigmaChrSpec}
+pair_coeff         4    7  tanhlr/cut/domainab        	0.0      	  0.000000     	${epsChrSpec}	 	${rctanh}  ${sigmaChrSpec}
+
+#The following lines do not really matter as the "else if" in pair.cpp never gets executed for the following pairs 
+#Domainab interaction nucleolus-speckles
+pair_coeff         5    7  tanhlr/cut/domainab        	0.0      	  0.000000     	0.0	 				${rctanh}  	1.0
+#Domainab interaction lamina-speckles (zeroed out and will use generic WCA)
+pair_coeff         6    7  tanhlr/cut/domainab        	0.0      	  0.000000     	0.0	 				${rctanh}  	1.0
+#Domainab interaction speckles-speckles (zero out here as SPIN prob array element is zero in pair.cpp but define in lj/cut)
+pair_coeff         7    7  tanhlr/cut/domainab        	0.0      	  0.000000     	0.0	 				${rctanh}  	1.0
+
+#lj/cut 
+#This input read after pair_coeff * * lj/cut init  
+pair_coeff 5 7 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+pair_coeff 6 7 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+pair_coeff 7 7 lj/cut ${epsSpecSpec} ${sigmaSpecSpec} ${cutoffSpecSpec}
+pair_coeff 7 7 yukawa ${ASpec} ${cutYSpec}

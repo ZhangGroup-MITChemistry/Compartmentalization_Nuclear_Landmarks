@@ -1,0 +1,14 @@
+pair_coeff         1    1 table /nobackup1/qiyf/project_nucleolus/whole_genome_nads_umbrella_2000TF/simulation_scripts/soft_core_lj_4kT.table soft_core_lj 1.12 
+pair_coeff         1    2 table /nobackup1/qiyf/project_nucleolus/whole_genome_nads_umbrella_2000TF/simulation_scripts/soft_core_lj_4kT.table soft_core_lj 1.12 
+pair_coeff         1    3 table /nobackup1/qiyf/project_nucleolus/whole_genome_nads_umbrella_2000TF/simulation_scripts/soft_core_lj_4kT.table soft_core_lj 1.12 
+pair_coeff         1    4 table /nobackup1/qiyf/project_nucleolus/whole_genome_nads_umbrella_2000TF/simulation_scripts/soft_core_lj_4kT.table soft_core_lj 1.12 
+
+pair_coeff         2    2 table /nobackup1/qiyf/project_nucleolus/whole_genome_nads_umbrella_2000TF/simulation_scripts/soft_core_lj_4kT.table soft_core_lj 1.12 
+pair_coeff         2    3 table /nobackup1/qiyf/project_nucleolus/whole_genome_nads_umbrella_2000TF/simulation_scripts/soft_core_lj_4kT.table soft_core_lj 1.12 
+pair_coeff         2    4 table /nobackup1/qiyf/project_nucleolus/whole_genome_nads_umbrella_2000TF/simulation_scripts/soft_core_lj_4kT.table soft_core_lj 1.12 
+ 
+pair_coeff         3    3 table /nobackup1/qiyf/project_nucleolus/whole_genome_nads_umbrella_2000TF/simulation_scripts/soft_core_lj_4kT.table soft_core_lj 1.12 
+pair_coeff         3    4 table /nobackup1/qiyf/project_nucleolus/whole_genome_nads_umbrella_2000TF/simulation_scripts/soft_core_lj_4kT.table soft_core_lj 1.12 
+ 
+pair_coeff         4    4 table /nobackup1/qiyf/project_nucleolus/whole_genome_nads_umbrella_2000TF/simulation_scripts/soft_core_lj_4kT.table soft_core_lj 1.12 
+

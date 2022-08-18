@@ -1,0 +1,36 @@
+#*****Lamina-Chromatin and Lamin-Nucleolus interactions*****
+#Zero out the soft table (zeroing out is not required as table anyways does not support mixing 11 June 2021)
+#pair_coeff	1 6 	table /home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/src/md/energy_file/soft_core_lj_zeroed.table soft_core_zeroed 1.12
+#pair_coeff	2 6 	table /home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/src/md/energy_file/soft_core_lj_zeroed.table soft_core_zeroed 1.12
+#pair_coeff	3 6 	table /home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/src/md/energy_file/soft_core_lj_zeroed.table soft_core_zeroed 1.12
+#pair_coeff	4 6 	table /home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/src/md/energy_file/soft_core_lj_zeroed.table soft_core_zeroed 1.12
+#pair_coeff	5 6 	table /home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/src/md/energy_file/soft_core_lj_zeroed.table soft_core_zeroed 1.12
+#pair_coeff	6 6 	table /home/kartikk/sim/chrome/DiploidGenomeOrganization/Original_Files/src/md/energy_file/soft_core_lj_zeroed.table soft_core_zeroed 1.12
+
+#Domainab interaction lamina-chromatin
+#arg is 1scale 2scale alpha rc sigma
+pair_coeff         1    6  tanhlr/cut/domainab       	${epsLAD}     0.000000    	0.0	 	${rctanh}  ${sigmaLAD}
+pair_coeff         2    6  tanhlr/cut/domainab        	${epsLAD}     0.000000    	0.0  	${rctanh}  ${sigmaLAD}
+pair_coeff         3    6  tanhlr/cut/domainab        	${epsLAD}     0.000000     	0.0	 	${rctanh}  ${sigmaLAD}
+pair_coeff         4    6  tanhlr/cut/domainab        	${epsLAD}     0.000000     	0.0	 	${rctanh}  ${sigmaLAD}
+pair_coeff         5    6  tanhlr/cut/domainab        	0.0     	  0.000000     	0.0	 	${rctanh}  ${sigmaLAD}
+pair_coeff         6    6  tanhlr/cut/domainab        	0.0      	  0.000000     	0.0	 	${rctanh}  ${sigmaLAD}
+
+#SPIN nucleolus-chromatin and WCA lamina-chromatin
+
+pair_coeff         1    5  tanhlr/cut/domainab       	0.0     ${epsNAD}    	0.0	 	${rctanh}  ${sigmaNAD}
+pair_coeff         2    5  tanhlr/cut/domainab        	0.0     ${epsNAD}    	0.0  	${rctanh}  ${sigmaNAD}
+pair_coeff         3    5  tanhlr/cut/domainab        	0.0     ${epsNAD}     	0.0	 	${rctanh}  ${sigmaNAD}
+pair_coeff         4    5  tanhlr/cut/domainab        	0.0     ${epsNAD}     	0.0	 	${rctanh}  ${sigmaNAD}
+
+pair_coeff * * lj/cut 0.0 			0.0 	  	${WCAcut}
+pair_coeff 5 5 lj/cut ${elipsonpp} ${sigmapp} 	${cutoffpp}
+
+#pair_coeff 1 6 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+#pair_coeff 2 6 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+#pair_coeff 3 6 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+#pair_coeff 4 6 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+pair_coeff 5 6 lj/cut ${epsWCA} ${sigWCA} ${WCAcut}
+
+#Do not move the following line up because of the * * init above
+include in.ff_param_speckles 

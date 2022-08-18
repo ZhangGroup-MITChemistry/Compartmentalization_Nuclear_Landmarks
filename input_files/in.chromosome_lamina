@@ -1,0 +1,86 @@
+#First Line Blank
+variable rseed equal 46583016
+variable iterID string 04
+variable		T				equal	1.0	
+variable 		highT			equal	2.0
+variable 		sigmaLAD		equal	1.0
+variable 		sigmaNAD		equal	0.75							#Protein-Chr sigma
+variable 		epsWCA			equal 	1.0
+variable 		sigWCA			equal	1.0
+variable		sigmaChrSpec	equal	0.75
+variable		sigmaSpecSpec	equal	0.50
+variable		cutoffSpecSpec	equal	2.0
+variable 		rctanh			equal	0.868
+variable		sigmatanh		equal	4.503
+variable 		cuttanh			equal	4.0
+
+#The following two lines override the iteration number/folder and that is the expected behaviour
+variable 		iterID			string  10 
+variable 		folderpath		string 	/nfs/pool002/users/kartikk/sim/project_cell_type-HFF/hic_uniform_all_tune/tune_without_speckles_start_0
+#####################
+#	Before Anneal   #
+#####################
+variable 		epsLAD			equal	0.75
+variable 		epsNAD			equal	1.5
+variable 		epsNADNAD		equal	2.0
+variable 		epsChrSpec		equal	1.5
+
+variable		epsSpecSpec		equal	8.0
+variable                ki                      equal   1.9*0.5
+variable                kappaSpec               equal   1.0/${ki}
+variable                ASpec                   equal   2.5/${kappaSpec}
+variable                cutYSpec                equal   6.0*${ki}
+#####################
+#Zero out the lamin-chromatin, nucleolus-chromatin, speckle-chromatin, speckle-speckle 
+#and nucleolus-nucleolus interaction for the anneal run
+
+### Determines file being read in read_data ###
+variable 		nucleolusparticles	equal	300
+variable 		nclust				equal 	25
+variable 		npart				equal	24
+
+variable		WCAcut	equal 	(2.0)^(1.0/6.0)*${sigWCA}
+
+units			lj
+atom_style 		full
+boundary 		f	f	f
+special_bonds 	fene
+
+read_data		data_small_nucleus_cell_type-HFF.genome_lamina_nucleolus_${nucleolusparticles}_speckles_nclust${nclust}_npart${npart}
+include 		in.ff_param_nucleolus
+
+
+include 		in.pair_coeff_commands
+
+run 0
+group			lamina		type	6
+group 			innerchrome	subtract all lamina
+
+##########
+#Minimize#
+##########
+fix 			freeze lamina setforce 0.0 0.0 0.0
+minimize        1.0e-4 1.0e-6 1000 1000
+unfix			freeze
+
+compute 		1	innerchrome temp
+thermo          2000
+thermo_style    custom step time c_1 temp pe etotal epair ebond eangle press vol
+thermo_modify   norm no flush yes
+
+##########
+#HighTemp#
+##########
+velocity        innerchrome create ${T} ${rseed} rot yes mom yes dist gaussian
+reset_timestep	0
+timestep        0.005
+dump            1 all dcd 2000 DUMP_FILE.dcd 
+dump_modify     1 unwrap yes
+
+fix 			1 innerchrome	nve
+fix             2 innerchrome langevin 1.0 1.0 10.0 ${rseed}
+run             1
+undump          1
+unfix           2
+write_restart 	restart.6m
+
